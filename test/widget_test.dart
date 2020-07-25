@@ -7,24 +7,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:solid_software_test/tools.dart/random_color.dart';
+import 'dart:ui';
 
-import 'package:solid_software_test/main.dart';
+import 'package:solid_software_test/tools.dart/sufficient_text_color.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  test("Sufficient text color test 1", () {
+    Color actualColor =
+        SufficientTextColor.getColor(Color.fromARGB(255, 115, 155, 115));
+    expect(actualColor, Color(0xFFFFFFFF));
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test("Sufficient text color test 2", () {
+    Color actualColor =
+        SufficientTextColor.getColor(Color.fromARGB(255, 200, 200, 200));
+    expect(actualColor, Color(0xFF000000));
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test("Random color alpha enabled test", () {
+    Color actualColor = RandomColor.getColor(enableRandomAlpha: true);
+    expect(actualColor.alpha != 255, true);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test("Random color alpha disabled test", () {
+    Color actualColor = RandomColor.getColor();
+    expect(actualColor.alpha == 255, true);
+  });
+
+  test("Random color test", () {
+    Color color1 = RandomColor.getColor();
+    Color color2 = RandomColor.getColor();
+    expect(color1 != color2, true);
   });
 }
